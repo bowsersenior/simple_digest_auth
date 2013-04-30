@@ -24,6 +24,7 @@ Simple digest authentication client and rack middleware for ruby
    # => "q5o3wVHT1MFlzjViCKi5ZBEbx/aVu0OgFrL707FUAZQ="
 
    verifier = SimpleDigestAuth::Verifier.new :secret => '123'
+
    sda.valid_signature?(
      :request_method => 'GET',
      :body           => "",
