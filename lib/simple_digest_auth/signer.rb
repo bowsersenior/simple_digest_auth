@@ -23,7 +23,7 @@ module SimpleDigestAuth
       digest = OpenSSL::Digest::Digest.new(digest_method)
       Base64.encode64(
         OpenSSL::HMAC.digest(digest, opts[:secret], opts[:payload])
-      )
+      ).strip
     end
 
     def build_signature_for_request(opts={})

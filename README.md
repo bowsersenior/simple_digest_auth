@@ -15,22 +15,31 @@ Simple digest authentication client and rack middleware for ruby
 # Usage:
    client = SimpleDigestAuth::Client.new :secret => '123'
 
-   sda.build_signature_for(
+   client.build_signature_for(
      :request_method => 'GET',
-     :body           => "",
      :path           => '/',
-     :query_string   => 'foo=bar'
+     :query_string   => 'foo=bar',
+     :body           => ""
    )
-   # => "q5o3wVHT1MFlzjViCKi5ZBEbx/aVu0OgFrL707FUAZQ="
+   # => "3DxThLjjIi8II30O/uO9Mn0SoLOzOgqVd4Af7qCj9Vs="
 
    verifier = SimpleDigestAuth::Verifier.new :secret => '123'
 
-   sda.valid_signature?(
+   verifier.valid_signature_for_request?(
      :request_method => 'GET',
-     :body           => "",
      :path           => '/',
      :query_string   => 'foo=bar',
-     :signature      => "q5o3wVHT1MFlzjViCKi5ZBEbx/aVu0OgFrL707FUAZQ="
+     :body           => "",
+     :signature      => "3DxThLjjIi8II30O/uO9Mn0SoLOzOgqVd4Af7qCj9Vs="
    )
    # => true
+   
+   verifier.valid_signature_for_request?(
+     :request_method => 'GET',
+     :path           => '/',
+     :query_string   => 'foo=bar',
+     :body           => "",
+     :signature      => "sumtin else"
+   )
+   # => false
 ```
