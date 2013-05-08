@@ -16,7 +16,7 @@ module SimpleDigestAuth
 
       opts = opts.dup
 
-      received_signature = opts.delete(:signature)
+      received_signature = opts.delete(:signature) || ""
       calculated_signature = self.client.build_signature_for(opts)
 
       # Direct string comparison is vulnerable to timing attacks, compare hashes instead

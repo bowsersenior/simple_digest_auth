@@ -9,3 +9,5 @@ task :test do
     puts("#{color}#{test_file}\e[0m")
   end
 end
+
+task :default => :test

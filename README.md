@@ -13,6 +13,20 @@ Simple digest authentication client and rack middleware for ruby
 #
 #
 # Usage:
+
+   # Use the rack middleware to secure any rack app
+   # config.ru (or similar)
+   require 'simple_digest_auth/middleware'
+   require 'any_rack_app_to_be_secured'
+   use SimpleDigestAuth::Middleware, :header_name => 'X-Foo-Bar', :secret => 'abc123'
+   run AnyRackAppToBeSecured
+
+   # Now requests to AnyRackAppToBeSecured must include
+   # a signature in the header 'X-Foo-Bar'
+   # Otherwise a 401 will be returned
+
+   # To build the signature ...
+   require 'simple_digest_auth/client'
    client = SimpleDigestAuth::Client.new :secret => '123'
 
    client.build_signature_for(
@@ -22,7 +36,11 @@ Simple digest authentication client and rack middleware for ruby
      :body           => ""
    )
    # => "3DxThLjjIi8II30O/uO9Mn0SoLOzOgqVd4Af7qCj9Vs="
+   # ... include this signature in the header 'X-Foo-Bar'
+   # along with the HTTP request
 
+   # The verifier can be used independently as well
+   require 'simple_digest_auth/verifier'
    verifier = SimpleDigestAuth::Verifier.new :secret => '123'
 
    verifier.valid_signature_for_request?(
@@ -33,7 +51,7 @@ Simple digest authentication client and rack middleware for ruby
      :signature      => "3DxThLjjIi8II30O/uO9Mn0SoLOzOgqVd4Af7qCj9Vs="
    )
    # => true
-   
+
    verifier.valid_signature_for_request?(
      :request_method => 'GET',
      :path           => '/',

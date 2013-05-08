@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'simple_digest_auth/client'
 
 subject = SimpleDigestAuth::Client.new(:secret => 'shhhh')
 

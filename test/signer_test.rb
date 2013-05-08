@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'simple_digest_auth/signer'
 
 # build a canonical string to represent an HTTP request
 lambda do
